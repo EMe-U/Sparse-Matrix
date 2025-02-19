@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 class SparseMatrix:
     def __init__(self, matrixFilePath=None, numRows=None, numCols=None):
         if matrixFilePath:
@@ -10,16 +8,25 @@ class SparseMatrix:
             self.data = {}
 
     def load_from_file(self, matrixFilePath):
-        with open(matrixFilePath, 'r') as file:
-            lines = file.readlines()
-            self.numRows = int(lines[0].split('=')[1].strip())
-            self.numCols = int(lines[1].split('=')[1].strip())
-            self.data = {}
-            for line in lines[2:]:
-                line = line.strip()
-                if line:
-                    row, col, val = line.replace('(', '').replace(')', '').split(', ')
-                    self.data[(int(row), int(col))] = int(val)
+        try:
+            with open(matrixFilePath, 'r') as file:
+                lines = [line.strip() for line in file if line.strip()]
+                
+                if not lines[0].startswith("rows=") or not lines[1].startswith("cols="):
+                    raise ValueError("Input file has wrong format")
+                
+                self.numRows = int(lines[0].split('=')[1].strip())
+                self.numCols = int(lines[1].split('=')[1].strip())
+                self.data = {}
+                
+                for line in lines[2:]:
+                    try:
+                        row, col, val = line.replace('(', '').replace(')', '').split(', ')
+                        self.data[(int(row), int(col))] = int(val)
+                    except ValueError:
+                        raise ValueError("Input file has wrong format")
+        except FileNotFoundError:
+            raise FileNotFoundError(f"File {matrixFilePath} not found")
 
     def get_element(self, currRow, currCol):
         return self.data.get((currRow, currCol), 0)
@@ -59,8 +66,15 @@ class SparseMatrix:
                 result.set_element(row, k, result.get_element(row, k) + value * other.get_element(col, k))
         return result
 
-    def __str__(self):
-        result = f"{self.numRows} {self.numCols}\n"
+    def save_to_file(self, filename):
+        with open(filename, 'w') as file:
+            file.write(f"rows={self.numRows}\n")
+            file.write(f"cols={self.numCols}\n")
+            for (row, col), value in self.data.items():
+                file.write(f"({row}, {col}, {value})\n")
+
+    def _str_(self):
+        result = f"rows={self.numRows}\ncols={self.numCols}\n"
         for (row, col), value in self.data.items():
             result += f"({row}, {col}, {value})\n"
         return result
@@ -69,27 +83,37 @@ class SparseMatrix:
 def main():
     matrixFilePath1 = input("Enter the path to the first matrix file: ")
     matrixFilePath2 = input("Enter the path to the second matrix file: ")
-    matrix1 = SparseMatrix(matrixFilePath1)
-    matrix2 = SparseMatrix(matrixFilePath2)
+    
+    try:
+        matrix1 = SparseMatrix(r"C:\Users\LENOVO\Desktop\Sparse-Matrix\dsa\sparse_matrix\sample_inputs\matrix1.txt")
+        matrix2 = SparseMatrix(r"C:\Users\LENOVO\Desktop\Sparse-Matrix\dsa\sparse_matrix\sample_inputs\matrix2.txt")
+    except Exception as e:
+        print(f"Error: {e}")
+        return
 
     print("Select an operation:")
     print("1. Addition")
     print("2. Subtraction")
     print("3. Multiplication")
     operation = int(input("Enter your choice: "))
-
-    if operation == 1:
-        result = matrix1.add(matrix2)
-    elif operation == 2:
-        result = matrix1.subtract(matrix2)
-    elif operation == 3:
-        result = matrix1.multiply(matrix2)
-    else:
-        print("Invalid choice")
-        return
-
-    print("Result:")
-    print(result)
+    
+    try:
+        if operation == 1:
+            result = matrix1.add(matrix2)
+            result.save_to_file("addition_result.txt")
+            print("Addition result saved to addition_result.txt")
+        elif operation == 2:
+            result = matrix1.subtract(matrix2)
+            result.save_to_file("subtraction_result.txt")
+            print("Subtraction result saved to subtraction_result.txt")
+        elif operation == 3:
+            result = matrix1.multiply(matrix2)
+            result.save_to_file("multiplication_result.txt")
+            print("Multiplication result saved to multiplication_result.txt")
+        else:
+            print("Invalid choice")
+    except Exception as e:
+        print(f"Error: {e}")
 
 
 if __name__ == "__main__":
