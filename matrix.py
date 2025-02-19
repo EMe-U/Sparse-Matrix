@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 class SparseMatrix:
     def __init__(self, matrixFilePath=None, numRows=None, numCols=None):
         if matrixFilePath:
@@ -19,48 +21,48 @@ class SparseMatrix:
                     row, col, val = line.replace('(', '').replace(')', '').split(', ')
                     self.data[(int(row), int(col))] = int(val)
 
-    def getElement(self, currRow, currCol):
+    def get_element(self, currRow, currCol):
         return self.data.get((currRow, currCol), 0)
 
-    def setElement(self, currRow, currCol, value):
-        self.data[(currRow, currCol)] = value
+    def set_element(self, currRow, currCol, value):
+        if value != 0:
+            self.data[(currRow, currCol)] = value
+        elif (currRow, currCol) in self.data:
+            del self.data[(currRow, currCol)]
 
     def add(self, other):
         if self.numRows != other.numRows or self.numCols != other.numCols:
             raise ValueError("Matrix dimensions are incompatible for addition")
-        result = SparseMatrix(self.numRows, self.numCols)
-        for row in range(self.numRows):
-            for col in range(self.numCols):
-                result.setElement(row, col, self.getElement(row, col) + other.getElement(row, col))
+        result = SparseMatrix(numRows=self.numRows, numCols=self.numCols)
+        for (row, col), value in self.data.items():
+            result.set_element(row, col, value)
+        for (row, col), value in other.data.items():
+            result.set_element(row, col, result.get_element(row, col) + value)
         return result
 
     def subtract(self, other):
         if self.numRows != other.numRows or self.numCols != other.numCols:
             raise ValueError("Matrix dimensions are incompatible for subtraction")
-        result = SparseMatrix(self.numRows, self.numCols)
-        for row in range(self.numRows):
-            for col in range(self.numCols):
-                result.setElement(row, col, self.getElement(row, col) - other.getElement(row, col))
+        result = SparseMatrix(numRows=self.numRows, numCols=self.numCols)
+        for (row, col), value in self.data.items():
+            result.set_element(row, col, value)
+        for (row, col), value in other.data.items():
+            result.set_element(row, col, result.get_element(row, col) - value)
         return result
 
     def multiply(self, other):
         if self.numCols != other.numRows:
             raise ValueError("Matrix dimensions are incompatible for multiplication")
-        result = SparseMatrix(self.numRows, other.numCols)
-        for row in range(self.numRows):
-            for col in range(other.numCols):
-                sum = 0
-                for i in range(self.numCols):
-                    sum += self.getElement(row, i) * other.getElement(i, col)
-                result.setElement(row, col, sum)
+        result = SparseMatrix(numRows=self.numRows, numCols=other.numCols)
+        for (row, col), value in self.data.items():
+            for k in range(other.numCols):
+                result.set_element(row, k, result.get_element(row, k) + value * other.get_element(col, k))
         return result
 
     def __str__(self):
         result = f"{self.numRows} {self.numCols}\n"
-        for row in range(self.numRows):
-            for col in range(self.numCols):
-                if self.getElement(row, col) != 0:
-                    result += f"({row}, {col}, {self.getElement(row, col)})\n"
+        for (row, col), value in self.data.items():
+            result += f"({row}, {col}, {value})\n"
         return result
 
 
