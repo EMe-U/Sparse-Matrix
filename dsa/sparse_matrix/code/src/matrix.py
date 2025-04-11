@@ -119,3 +119,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+    #run the script with the command: python3 matrix.py
+    #make sure to run the script in the same directory as the input files
+    #or provide the full path to the input files
