@@ -81,8 +81,8 @@ class SparseMatrix:
 
 
 def main():
-    matrixFilePath1 = input("Enter the path to the first matrix file: ")
-    matrixFilePath2 = input("Enter the path to the second matrix file: ")
+    matrix1 = input("Enter the path to the first matrix file: ")
+    matrix2 = input("Enter the path to the second matrix file: ")
     
     try:
         matrix1 = SparseMatrix(r"C:\Users\LENOVO\Desktop\Sparse-Matrix\dsa\sparse_matrix\sample_inputs\matrix1.txt")
