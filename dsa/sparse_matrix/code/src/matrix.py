@@ -81,15 +81,17 @@ class SparseMatrix:
 
 
 def main():
-    matrix1 = input("Enter the path to the first matrix file: ")
-    matrix2 = input("Enter the path to the second matrix file: ")
+    matrixfilePath1 = input("Enter the path to the first matrix file: ")
+    matrixFilePath2 = input("Enter the path to the second matrix file: ")
     
     try:
-        matrix1 = SparseMatrix(r"C:\Users\LENOVO\Desktop\Sparse-Matrix\dsa\sparse_matrix\sample_inputs\matrix1.txt")
-        matrix2 = SparseMatrix(r"C:\Users\LENOVO\Desktop\Sparse-Matrix\dsa\sparse_matrix\sample_inputs\matrix2.txt")
+        matrix1 = SparseMatrix(matrixfilePath1)
+        matrix2 = SparseMatrix(matrixFilePath2)
     except Exception as e:
         print(f"Error: {e}")
         return
+
+    # ... rest of the code ...
 
     print("Select an operation:")
     print("1. Addition")
