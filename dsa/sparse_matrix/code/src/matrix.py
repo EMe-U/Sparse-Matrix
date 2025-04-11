@@ -26,7 +26,7 @@ class SparseMatrix:
                     except ValueError:
                         raise ValueError("Input file has wrong format")
         except FileNotFoundError:
-            print(f"Error: File '{matrixFilePath}' not found. Please check the path.")
+            raise FileNotFoundError(f"Error: File '{matrixFilePath}' not found. Please check the path.")
 
     def get_element(self, currRow, currCol):
         return self.data.get((currRow, currCol), 0)
