@@ -1,79 +1,40 @@
-# Sparse-Matrix
+Sparse-Matrix
+✅ What It Does
+This script allows you to perform basic operations on sparse matrices stored in text files. It supports:
 
+Addition
 
-Sparse Matrix Implementation
-==========================
+Subtraction
 
-Overview
---------
+Multiplication
 
-This project implements a sparse matrix data structure and provides functions for basic matrix operations such as addition, subtraction, and multiplication.
+The matrices are stored efficiently by only keeping track of non-zero values.
 
-Features
---------
+▶️ How to Run It
+Open a terminal or command prompt.
 
-*   **Sparse Matrix Representation**: The matrix is represented using a dictionary to store non-zero elements, which reduces memory usage and improves performance.
-*   **Matrix Operations**: The implementation provides functions for matrix addition, subtraction, and multiplication, which are optimized for performance.
-*   **Input File Parsing**: The implementation includes a function to parse input files and read matrix data, which supports a variety of file formats.
-*   **Output File Generation**: The implementation includes a function to generate output files and write matrix data, which supports a variety of file formats.
+Navigate to the directory where matrix.py is located.
 
-Usage
------
+Run the script using Python:
 
-### Running the Program
+bash
+Copy
+Edit
+python matrix.py
+When prompted, enter the paths to two matrix files (e.g., sample_inputs/matrix1.txt).
 
-1.  Clone the repository to your local machine using `git clone`.
-2.  Navigate to the project directory using `cd`.
-3.  Run the `matrix.py` file using Python (e.g., `python matrix.py`).
-4.  Follow the prompts to select the matrix operation and input files.
+Choose the operation:
 
-### Input File Format
+1 for Addition
 
-The input file should be in the following format:
+2 for Subtraction
 
+3 for Multiplication
 
-rows=<number of rows>
-cols=<number of columns>
-(row, col, value)
-(row, col, value)
-...
+The result will be saved to:
 
+addition_result.txt
 
-For example:
+subtraction_result.txt
 
-
-rows=8433
-cols=3180
-(0, 381, -694)
-(0, 128, -838)
-(0, 639, 857)
-(0, 165, -933)
-(0, 1350, -89)
-
-
-### Output File Format
-
-The output file will be in the same format as the input file.
-
-
-Requirements
-------------
-
-*   **Python 3.x**: The implementation requires Python 3.x to run.
-*   **No External Libraries**: The implementation does not require any external libraries.
-
-Note
-----
-
-*   **Error Handling**: The implementation assumes that the input files are in the correct format and does not perform any error checking. You may want to add error checking to handle invalid input files.
-*   **Performance**: The implementation is designed to be efficient in terms of memory usage and computational complexity. However, the performance may vary depending on the size of the input files and the matrix operations.
-
-Input Files
-------------
-
-*   The input files should be placed in the `/dsa/sparse_matrix/sample_inputs/` directory.
-
-Output Files
-------------
-
-*   The output files will be generated in the same directory as the input files.
+multiplication_result.txt (based on the operation)
