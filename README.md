@@ -1,5 +1,7 @@
 Sparse-Matrix
+
 ✅ What It Does
+
 This script allows you to perform basic operations on sparse matrices stored in text files. It supports:
 
 Addition
@@ -11,6 +13,7 @@ Multiplication
 The matrices are stored efficiently by only keeping track of non-zero values.
 
 ▶️ How to Run It
+
 Open a terminal or command prompt.
 
 Navigate to the directory where matrix.py is located.
